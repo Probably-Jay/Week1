@@ -23,6 +23,12 @@ ACustomActor::ACustomActor()
 	StaticMeshComponent->SetStaticMesh(MeshAsset.Object);
 }
 
+void ACustomActor::PostActorCreated()
+{
+	Super::PostActorCreated();
+	InitialLocation = GetActorLocation();
+}
+
 // Called when the game starts or when spawned
 void ACustomActor::BeginPlay()
 {
@@ -35,6 +41,13 @@ void ACustomActor::BeginPlay()
 void ACustomActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	FMatrix mat_init = FMatrix::Identity;
+	mat_init.M[3][0] = InitialLocation.X;
+	mat_init.M[3][1] = InitialLocation.Y;
+	mat_init.M[3][2] = InitialLocation.Z;
+
+
 
 	accumilatedTimeAsDegrees += DeltaTime;
 
@@ -51,7 +64,18 @@ void ACustomActor::Tick(float DeltaTime)
 	CurrentPosition.Z = DeltaZ * 50;
 	CurrentPosition.Y = DeltaY * 70;
 
+
+	FMatrix mat_moving = FMatrix::Identity;
+	mat_moving.M[3][0] = CurrentPosition.X; // this is the calculated X from the previous lab
+	mat_moving.M[3][1] = CurrentPosition.Y;
+	mat_moving.M[3][2] = CurrentPosition.Z;
+
 	SetActorLocation(CurrentPosition);
+
+	const FMatrix mat_final = mat_moving * mat_init;
+
+	//SetActorTransform(FTransform(mat_final));
+
 
 }
 

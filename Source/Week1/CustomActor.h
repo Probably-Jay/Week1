@@ -22,6 +22,8 @@ public:
 	UPROPERTY(Category = "myCategory", VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* StaticMeshComponent;
 
+	virtual void PostActorCreated() override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,4 +35,5 @@ public:
 private:
 	float accumilatedTimeAsDegrees;
 
+	FVector InitialLocation;
 };

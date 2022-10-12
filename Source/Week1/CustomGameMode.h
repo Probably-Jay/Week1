@@ -29,4 +29,7 @@ public:
 
 	void SpawnCube();
 
+private:
+	FTimerHandle Ticker;
+
 };
