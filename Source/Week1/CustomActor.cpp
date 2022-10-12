@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include "UObject/ConstructorHelpers.h"
+
 // Sets default values
 ACustomActor::ACustomActor()
 {
@@ -16,6 +18,9 @@ ACustomActor::ACustomActor()
 
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
 	StaticMeshComponent->SetupAttachment(SceneComponent);
+
+	auto MeshAsset = ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Engine/BasicShapes/Cube.Cube'"));
+	StaticMeshComponent->SetStaticMesh(MeshAsset.Object);
 }
 
 // Called when the game starts or when spawned
